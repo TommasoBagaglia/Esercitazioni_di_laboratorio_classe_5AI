@@ -1,6 +1,5 @@
 package com.mycompany.mainserver;
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Client {

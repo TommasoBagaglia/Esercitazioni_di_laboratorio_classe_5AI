@@ -1,10 +1,10 @@
 package com.mycompany.mainserver;
 
 public class MainServer {
+
     public static void main(String[] args) {
-        Server mioServer = new Server(1234);
-        mioServer.attendi();
-        
+        int porta = 12346;
+        Server server = new Server(porta);
+        server.avvia();
     }
 }
-

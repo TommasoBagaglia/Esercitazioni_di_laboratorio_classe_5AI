@@ -2,66 +2,70 @@ package com.mycompany.mainserver;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
 
 class Server {
     private ServerSocket serverSocket;
-    private Socket clientSocket;
     private int porta;
 
-    // Costruttore che imposta la porta del server
     public Server(int porta) {
         this.porta = porta;
     }
 
-    // Metodo per mettersi in ascolto di connessioni in entrata
-    public void attendi() {
+    public void avvia() {
         try {
-            serverSocket = new ServerSocket(porta); // Creazione del ServerSocket sulla porta specificata
+            serverSocket = new ServerSocket(porta);
             System.out.println("Server in ascolto sulla porta " + porta);
-            clientSocket = serverSocket.accept(); // Accettazione della connessione dal client
-            System.out.println("Connessione accettata da: " + clientSocket.getInetAddress());
-            // In questo punto la connessione è stabilita e si può iniziare a comunicare con il client
-            leggi(); // Metodo per leggere i dati inviati dal client
-            scrivi("Ciao, sono il server!"); // Metodo per inviare una risposta al client
-            chiudi(); // Chiusura della connessione
+            ExecutorService executor = Executors.newCachedThreadPool();
+
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Connessione accettata da: " + clientSocket.getInetAddress());
+
+                // Passa un identificatore unico per il client al momento della creazione del gestore del client
+                executor.submit(new ClientHandler(clientSocket, "Client" + clientSocket.getPort()));
+            }
         } catch (IOException ex) {
             System.err.println("Errore nella fase di ascolto");
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
+}
 
-    // Metodo per scrivere dati al client (non implementato in questa versione)
-    public void scrivi(String messaggio) {
-        // Implementazione mancante
+class ClientHandler implements Runnable {
+    private Socket clientSocket;
+    private String clientName; // Aggiungi un campo per memorizzare il nome del client
+
+    public ClientHandler(Socket clientSocket, String clientName) {
+        this.clientSocket = clientSocket;
+        this.clientName = clientName; // Memorizza il nome del client
     }
 
-    // Metodo per leggere dati inviati dal client
-    public void leggi() {
+    @Override
+    public void run() {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            String messaggio = in.readLine(); // Legge una linea di testo inviata dal client
-            System.out.println("Messaggio ricevuto dal client: " + messaggio);
-        } catch (IOException e) {
-            System.out.println("Errore nella lettura del messaggio.");
-            e.printStackTrace();
-        }
-    }
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
 
-    // Metodo per chiudere la connessione al client
-    public void chiudi() {
-        try {
-            if (clientSocket != null) {
-                clientSocket.close(); // Chiusura del socket del client
-                System.out.println("Connessione chiusa con il client.");
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println("Messaggio ricevuto da " + clientName + ": " + inputLine);
+                if (inputLine.equals("exit")) {
+                    break;
+                }
+                System.out.print("Inserisci la risposta per " + clientName + ": ");
+                String serverResponse = consoleInput.readLine();
+                out.println("Risposta dal server per " + clientName + ": " + serverResponse);
             }
-            if (serverSocket != null) {
-                serverSocket.close(); // Chiusura del ServerSocket
-                System.out.println("Server socket chiuso.");
-            }
+
+            System.out.println("Connessione chiusa con " + clientName);
+            clientSocket.close();
         } catch (IOException e) {
-            System.out.println("Errore nella chiusura del socket.");
+            System.out.println("Errore nella gestione del client " + clientName);
             e.printStackTrace();
         }
     }
