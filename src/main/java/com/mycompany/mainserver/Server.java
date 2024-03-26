@@ -5,8 +5,6 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-
 class Server {
     private ServerSocket serverSocket;
     private int porta;
@@ -17,6 +15,7 @@ class Server {
 
     public void avvia() {
         try {
+            //istanza della server socket
             serverSocket = new ServerSocket(porta);
             System.out.println("Server in ascolto sulla porta " + porta);
             ExecutorService executor = Executors.newCachedThreadPool();
@@ -52,11 +51,8 @@ class ClientHandler implements Runnable {
             BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
 
             String inputLine;
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = in.readLine()) != null && inputLine != "exit") {
                 System.out.println("Messaggio ricevuto da " + clientName + ": " + inputLine);
-                if (inputLine.equals("exit")) {
-                    break;
-                }
                 System.out.print("Inserisci la risposta per " + clientName + ": ");
                 String serverResponse = consoleInput.readLine();
                 out.println("Risposta dal server per " + clientName + ": " + serverResponse);
