@@ -13,6 +13,7 @@ public class ClientHandler implements Runnable {
         this.clientSocket = clientSocket; // Inizializza il socket con quello passato dal server.
     }
 
+    
     @Override
     public void run() {
         // Utilizza try-with-resources per assicurarsi che le risorse vengano chiuse automaticamente alla fine del blocco.
