@@ -1,0 +1,5 @@
+com\mycompany\mainclient\MainServer.class
+com\mycompany\mainclient\Client.class
+com\mycompany\mainclient\ClientHandler.class
+com\mycompany\mainclient\MainClient.class
+com\mycompany\mainclient\Server.class
