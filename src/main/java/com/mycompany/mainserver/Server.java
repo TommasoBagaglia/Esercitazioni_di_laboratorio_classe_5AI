@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Scanner;
-
+//UDP
 public class Server {
     private DatagramSocket socket; // Socket UDP per la comunicazione.
     private byte[] buf = new byte[256]; // Buffer per i dati in entrata e uscita.

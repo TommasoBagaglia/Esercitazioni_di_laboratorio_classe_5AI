@@ -1,5 +1,6 @@
 package com.mycompany.mainserver;
 import java.io.IOException;
+//UDP
 public class MainClient {
     public static void main(String[] args) {
         try {
