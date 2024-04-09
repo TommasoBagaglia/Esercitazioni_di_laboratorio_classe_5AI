@@ -2,7 +2,7 @@ package com.mycompany.mainclient;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+//day time
 public class MainClient {
     public static void main(String[] args) {
         try {

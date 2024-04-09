@@ -1,4 +1,5 @@
 package com.mycompany.mainclient;
+//day time
 public class MainServer {
     public static void main(String[] args) {
         int porta = 12346; // Scegli una porta su cui il server dovrà ascoltare le connessioni in entrata
