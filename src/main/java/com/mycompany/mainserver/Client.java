@@ -1,7 +1,7 @@
 package com.mycompany.mainserver;
 import java.io.*;
 import java.net.Socket;
-
+//TCP multi-thread 
 public class Client {
     private Socket socket;
 
@@ -53,5 +53,3 @@ public class Client {
         }
     }
 }
-
-

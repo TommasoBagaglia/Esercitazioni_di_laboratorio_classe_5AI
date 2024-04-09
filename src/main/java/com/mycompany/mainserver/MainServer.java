@@ -1,4 +1,5 @@
 package com.mycompany.mainserver;
+//TCP multi-thread 
 public class MainServer {
 
     public static void main(String[] args) {
