@@ -10,7 +10,7 @@ public class MainClient {
         try {
             Socket socket = new Socket(nomeServer, portaServer);
             System.out.println("Connesso al server: " + nomeServer + " sulla porta: " + portaServer);
-
+            System.out.println("se vuoi chiude la connesione digitare exit");
             BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
