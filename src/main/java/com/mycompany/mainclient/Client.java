@@ -13,7 +13,8 @@ public class Client {
     public void connetti(String nomeServer, int portaServer) throws IOException {
         socket = new Socket(nomeServer, portaServer); // Si connette al server
         System.out.println("Connesso al server: " + nomeServer + " sulla porta: " + portaServer);
-
+        System.out.println("Se vuoi l'orario inserire get time");
+        System.out.println("Invece se vuoi chiudere la connesione inserire exit");
         in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // Per leggere le risposte dal server
         out = new PrintWriter(socket.getOutputStream(), true); // Per inviare messaggi al server
 
