@@ -21,7 +21,9 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            System.out.println("se vuoi smettere di comunicare con il server, digitare chiudi");
             System.out.print("Tu: ");
+            
             String input = scanner.nextLine();
             buf = input.getBytes();
             DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 1234);
