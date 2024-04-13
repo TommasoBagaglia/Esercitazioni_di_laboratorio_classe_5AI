@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 //TCP multi-thread 
-// Definizione della classe Server
 class Server {
     // Dichiarazione delle variabili di istanza
     private ServerSocket serverSocket; // Socket del server
@@ -39,44 +38,6 @@ class Server {
             }
         } catch (IOException ex) { // Gestione delle eccezioni di I/O
             System.err.println("Errore nella fase di ascolto"); // Stampa un messaggio di errore
-        }
-    }
-}
-
-// Definizione della classe ClientHandler, implementa l'interfaccia Runnable
-class ClientHandler implements Runnable {
-    // Dichiarazione delle variabili di istanza
-    private Socket clientSocket; // Socket del client
-    private String clientName; // Nome del client
-
-    // Costruttore della classe ClientHandler
-    public ClientHandler(Socket clientSocket, String clientName) {
-        this.clientSocket = clientSocket; // Inizializza la socket del client
-        this.clientName = clientName; // Inizializza il nome del client
-    }
-
-    // Metodo run() che viene eseguito quando il gestore del client viene eseguito su un thread separato
-    @Override
-    public void run() {
-        try {
-            // Creazione dei flussi di input e output per la comunicazione con il client
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in)); // Flusso di input da console
-
-            String inputLine; // Variabile per memorizzare le righe di input dal client
-            // Loop per leggere i messaggi inviati dal client
-            while ((inputLine = in.readLine()) != null && !inputLine.equals("exit")) {
-                System.out.println("Messaggio ricevuto da " + clientName + ": " + inputLine); // Stampa il messaggio ricevuto dal client
-                System.out.print("Inserisci la risposta per " + clientName + ": "); // Richiesta di inserimento della risposta da parte dell'utente del server
-                String serverResponse = consoleInput.readLine(); // Legge la risposta dall'input della console
-                out.println("Risposta dal server per " + clientName + ": " + serverResponse); // Invia la risposta al client
-            }
-
-            System.out.println("Connessione chiusa con " + clientName); // Stampa un messaggio quando la connessione viene chiusa
-            clientSocket.close(); // Chiude la socket del client
-        } catch (IOException e) { // Gestione delle eccezioni di I/O
-            System.out.println("Errore nella gestione del client " + clientName); // Stampa un messaggio di errore
         }
     }
 }
